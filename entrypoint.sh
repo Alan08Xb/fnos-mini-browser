@@ -1,7 +1,7 @@
 #!/bin/bash
 sleep 2
 
-HOME_URL=${HOME_URL:-http://localhost:8123}
+HOME_URL=${HOME_URL:-http://192.168.0.8}
 
 exec firefox \
     --no-remote \
