@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  browser:
+    build: .
+    container_name: fnos-mini-browser
+    restart: "no"          # 不自动重启，手动控制
+    ports:
+      - "${WEB_PORT:-5800}:5800"
+    environment:
+      - VNC_PASSWORD=${VNC_PASSWORD:-admin123}
+      - HOME_URL=${HOME_URL:-http://localhost}
+      - TZ=Asia/Shanghai
+    shm_size: "256m"
+    # 不限制内存，按需分配（容器停止后资源完全释放）
+    volumes:
+      - browser_cache:/root/.cache/mozilla
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:5800"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  browser_cache:
